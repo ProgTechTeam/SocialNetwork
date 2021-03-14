@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: SN-5
+      author: Evgenii Puliaev
+      comment: Created test table
+      changes:
+        - sqlFile:
+            path: SN-5.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/SN-5.rollback.sql
+            relativeToChangelogFile: true
