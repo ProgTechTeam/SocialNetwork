@@ -1,0 +1,18 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: SocialNetwork
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: true
+    database: POSTGRESQL
+  datasource:
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    url: jdbc:postgresql://${DB_URL:localhost:5432}/social-network
+  liquibase:
+    enabled: true
+    change-log: classpath*:changelog/changelog-master.yaml

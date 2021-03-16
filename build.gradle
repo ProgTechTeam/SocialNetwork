@@ -1,0 +1,61 @@
+plugins {
+    id 'org.liquibase.gradle' version '2.0.3'
+    id 'org.springframework.boot' version '2.3.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+springBoot {
+    mainClassName = 'com.github.progtechteam.socialnetwork.SocialNetworkApplication'
+}
+
+allprojects {
+    apply {
+        plugin 'java'
+        plugin 'java-library'
+        plugin 'idea'
+    }
+
+    group = 'com.github.progtechteam'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    ext { // contains dependency versions
+        spring_boot_ver = '2.3.9.RELEASE'
+        spring_data_ver = '2.3.7.RELEASE'
+        postgre_ver = '42.2.19'
+        liquibase_ver = '4.3.1'
+        mapstruct_ver = '1.4.2.Final'
+        lombok_ver = '1.18.18'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        compileOnly "org.projectlombok:lombok:$lombok_ver"
+        annotationProcessor "org.projectlombok:lombok:$lombok_ver"
+    }
+}
+
+allprojects.each {
+    if (it.name != 'commons') {
+        it.dependencies {
+            implementation project(':commons')
+        }
+    }
+}
+
+dependencies {
+    implementation project(':api')
+    implementation "org.springframework.boot:spring-boot-starter:$spring_boot_ver"
+}

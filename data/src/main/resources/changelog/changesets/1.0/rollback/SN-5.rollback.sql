@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS test.tests;
+
+DROP TABLE IF EXISTS test.test_types;
+
+DROP SCHEMA IF EXISTS test;
