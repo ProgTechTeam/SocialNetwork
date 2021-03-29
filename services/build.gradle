@@ -2,7 +2,11 @@ dependencies {
     implementation project(':data')
 
     implementation "org.springframework.boot:spring-boot-starter:$spring_boot_ver"
+    implementation "org.springframework.boot:spring-boot-starter-validation:$spring_boot_ver"
 
     implementation "org.mapstruct:mapstruct:$mapstruct_ver"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstruct_ver"
+
+    implementation "org.springdoc:springdoc-openapi:$springdoc_openapi_ver"
+    implementation "org.springdoc:springdoc-openapi-ui:$springdoc_openapi_ver"
 }

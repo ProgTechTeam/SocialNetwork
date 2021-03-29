@@ -2,4 +2,8 @@ dependencies {
     implementation project(':services')
 
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_ver"
+    implementation "org.springframework.boot:spring-boot-starter-validation:$spring_boot_ver"
+
+    implementation "org.springdoc:springdoc-openapi:$springdoc_openapi_ver"
+    implementation "org.springdoc:springdoc-openapi-ui:$springdoc_openapi_ver"
 }

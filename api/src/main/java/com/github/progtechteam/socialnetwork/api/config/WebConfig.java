@@ -12,7 +12,10 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @ComponentScan(basePackages = "com.github.progtechteam.socialnetwork.api.controller")
-@Import(ServicesConfig.class)
+@Import({
+        OpenApiConfig.class,
+        ServicesConfig.class
+})
 public class WebConfig {
 
 }
