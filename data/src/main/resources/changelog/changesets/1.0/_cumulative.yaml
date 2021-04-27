@@ -23,3 +23,15 @@ databaseChangeLog:
         - sqlFile:
             path: rollback/SN-8.rollback.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: SN-10
+      author: Evgenii Puliaev
+      comment: Added primary key constraint to accounts table
+      changes:
+        - sqlFile:
+            path: SN-10.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/SN-10.rollback.sql
+            relativeToChangelogFile: true

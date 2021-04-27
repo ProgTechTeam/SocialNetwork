@@ -1,22 +1,22 @@
 package com.github.progtechteam.socialnetwork.commons;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
+ * Represents roles used in system.
+ *
  * @author Evgenii Puliaev
  */
+@Getter
+@RequiredArgsConstructor
 public enum Role {
-    USER(1),
-    MODERATOR(2),
+    USER(1, "ROLE_USER"),
+    MODERATOR(2, "ROLE_MODERATOR"),
     ;
 
     private final int id;
-
-    Role(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+    private final String systemName;
 
     /**
      * Tries to parse given id into {@link Role} instance.
