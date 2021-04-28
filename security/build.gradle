@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(':data')
+    implementation project(':services')
+
+    implementation "org.springframework.security:spring-security-web:$spring_security_ver"
+    implementation "org.springframework.security:spring-security-config:$spring_security_ver"
+
+    compileOnly "jakarta.servlet:jakarta.servlet-api:$jakarta_servlet_ver"
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:$jackson_ver"
+}
