@@ -1,5 +1,6 @@
 package com.github.progtechteam.socialnetwork.services.service;
 
+import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
 import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto;
 
 /**
@@ -7,6 +8,6 @@ import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto
  */
 public interface UserService {
 
-    void create(UserCreateDto dto);
+    CurrentUser create(UserCreateDto dto);
 
 }
