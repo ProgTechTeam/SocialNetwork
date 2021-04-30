@@ -1,5 +1,6 @@
 package com.github.progtechteam.socialnetwork.security.model;
 
+import com.github.progtechteam.socialnetwork.commons.Role;
 import com.github.progtechteam.socialnetwork.data.entity.Account;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,17 +17,19 @@ import java.util.Set;
  * @author Evgenii Puliaev
  */
 @Getter
-public class SnUserDetails implements UserDetails {
+public class AuthenticatedUserDetails implements UserDetails {
 
     private final Integer id;
     private final String email;
     private final String password;
+    private final Role role;
     private final Collection<SimpleGrantedAuthority> authorities;
 
-    public SnUserDetails(Account account) {
+    public AuthenticatedUserDetails(Account account) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.password = account.getPassword();
+        this.role = account.getRole();
         this.authorities = Set.of(new SimpleGrantedAuthority(account.getRole().getSystemName()));
     }
 

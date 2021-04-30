@@ -3,15 +3,13 @@ package com.github.progtechteam.socialnetwork.security.config;
 import com.github.progtechteam.socialnetwork.commons.Role;
 import com.github.progtechteam.socialnetwork.commons.Url;
 import com.github.progtechteam.socialnetwork.security.handler.SnAccessDeniedHandler;
-import com.github.progtechteam.socialnetwork.security.provider.DaoAuthProvider;
-import com.github.progtechteam.socialnetwork.security.service.CurrentUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -39,7 +37,7 @@ import java.util.List;
 @ComponentScan(basePackages = {
         "com.github.progtechteam.socialnetwork.security.service",
         "com.github.progtechteam.socialnetwork.security.handler",
-        "com.github.progtechteam.socialnetwork.security.provider"
+        "com.github.progtechteam.socialnetwork.security.mapper",
 })
 @Import({CurrentUserConfig.class})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -50,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationFailureHandler authFailureHandler;
     private final LogoutSuccessHandler logoutSuccessHandler;
     private final UserDetailsService userDetailsService;
-    private final CurrentUserService currentUserService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -75,17 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    @Bean
     @Override
-    protected UserDetailsService userDetailsService() {
-        return userDetailsService;
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        final var daoAuthenticationProvider = new DaoAuthProvider(currentUserService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
-        auth.authenticationProvider(daoAuthenticationProvider);
+    protected UserDetailsService userDetailsService() {
+        return userDetailsService;
     }
 
     @Override

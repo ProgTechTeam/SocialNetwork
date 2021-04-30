@@ -1,6 +1,6 @@
 package com.github.progtechteam.socialnetwork.security.handler;
 
-import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.security.model.AuthenticatedUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -23,6 +23,6 @@ public class LogoutHandler implements LogoutSuccessHandler {
                                 HttpServletResponse response,
                                 Authentication authentication) {
         response.setStatus(HttpServletResponse.SC_OK);
-        log.info("User=[{}] successfully logged out", ((CurrentUser) authentication.getPrincipal()).getId());
+        log.info("User=[{}] successfully logged out", ((AuthenticatedUserDetails) authentication.getPrincipal()).getId());
     }
 }

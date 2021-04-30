@@ -1,7 +1,8 @@
 package com.github.progtechteam.socialnetwork.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.security.mapper.CurrentUserMapper;
+import com.github.progtechteam.socialnetwork.security.model.AuthenticatedUserDetails;
 import com.github.progtechteam.socialnetwork.security.model.AuthResponseFailure;
 import com.github.progtechteam.socialnetwork.security.model.AuthResponseSuccess;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import java.io.IOException;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final ObjectMapper mapper;
+    private final CurrentUserMapper currentUserMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -34,7 +36,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setCharacterEncoding(request.getCharacterEncoding());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        final var currentUser = (CurrentUser) authentication.getPrincipal();
+        final var currentUser = (AuthenticatedUserDetails) authentication.getPrincipal();
         try (final var writer = response.getWriter()) {
             if (currentUser == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -42,7 +44,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 log.error("Failed login attempt: Principal is null");
             } else {
                 response.setStatus(HttpServletResponse.SC_OK);
-                mapper.writeValue(writer, new AuthResponseSuccess(currentUser));
+                mapper.writeValue(
+                        writer,
+                        new AuthResponseSuccess(currentUserMapper.fromAuthenticatedUserDetails(currentUser))
+                );
                 log.info("User=[{}] successfully logged in", currentUser.getId());
             }
         }
