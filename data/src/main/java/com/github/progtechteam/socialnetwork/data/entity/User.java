@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -181,5 +182,20 @@ public class User {
         return subscriptionsOnUsers.stream()
                 .filter(s -> subscribers.contains(s))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof User)) return false;
+        final var user = (User) obj;
+        return getId().equals(user.getId())
+                && getFirstName().equals(user.getFirstName())
+                && getLastName().equals(user.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName());
     }
 }
