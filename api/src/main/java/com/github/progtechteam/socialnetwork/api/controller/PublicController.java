@@ -22,7 +22,7 @@ public class PublicController {
 
     @PostMapping(path = "/register")
     public CurrentUser registerUser(@RequestBody UserCreateDto dto) {
-        return  userService.create(dto);
+        return userService.create(dto);
     }
 
 }
