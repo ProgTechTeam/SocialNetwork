@@ -1,6 +1,9 @@
 package com.github.progtechteam.socialnetwork.security.config;
 
+import com.github.progtechteam.socialnetwork.security.mapper.CurrentUserMapper;
+import com.github.progtechteam.socialnetwork.security.model.AuthenticatedUserDetails;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -13,8 +16,11 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author Evgenii Puliaev
  */
+@RequiredArgsConstructor
 @Configuration
 public class CurrentUserConfig {
+
+    private final CurrentUserMapper mapper;
 
     /**
      * Retrieves current user for current request.
@@ -33,8 +39,8 @@ public class CurrentUserConfig {
             throw new IllegalStateException("Current user must be set");
         }
 
-        if (principal instanceof CurrentUser) {
-            return (CurrentUser) principal;
+        if (principal instanceof AuthenticatedUserDetails) {
+            return mapper.fromAuthenticatedUserDetails((AuthenticatedUserDetails) principal);
         }
 
         throw new IllegalStateException("Unexpected principal type: " + principal.getClass());

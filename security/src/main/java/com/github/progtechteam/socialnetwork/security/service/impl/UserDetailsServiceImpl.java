@@ -1,7 +1,7 @@
 package com.github.progtechteam.socialnetwork.security.service.impl;
 
 import com.github.progtechteam.socialnetwork.data.repository.AccountRepository;
-import com.github.progtechteam.socialnetwork.security.model.SnUserDetails;
+import com.github.progtechteam.socialnetwork.security.model.AuthenticatedUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return accountRepository
                 .findByEmail(username)
-                .map(SnUserDetails::new)
+                .map(AuthenticatedUserDetails::new)
                 .orElseThrow(
                         () -> new UsernameNotFoundException(String.format("User with email [%s] not found", username))
                 );
