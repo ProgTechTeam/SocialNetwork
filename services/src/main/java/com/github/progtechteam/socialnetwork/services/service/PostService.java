@@ -15,4 +15,5 @@ public interface PostService {
     PostGetDto getById(int postId);
 
     PostGetDto create(PostCreateDto dto);
+
 }
