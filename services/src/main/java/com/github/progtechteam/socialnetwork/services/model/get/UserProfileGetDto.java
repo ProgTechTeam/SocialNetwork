@@ -1,6 +1,5 @@
 package com.github.progtechteam.socialnetwork.services.model.get;
 
-import com.github.progtechteam.socialnetwork.services.model.base.BaseDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,10 +8,10 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserGetDto extends BaseDto {
+public class UserProfileGetDto extends UserGetDto {
 
-    private String firstName;
-    private String lastName;
-    private String email;
+    private Integer friends;
+    private Integer subscribers;
+    private Integer subscriptions;
 
 }

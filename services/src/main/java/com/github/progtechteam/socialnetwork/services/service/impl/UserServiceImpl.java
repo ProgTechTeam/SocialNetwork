@@ -11,6 +11,7 @@ import com.github.progtechteam.socialnetwork.services.mapper.UserMapper;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
 import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.AuthenticationService;
 import com.github.progtechteam.socialnetwork.services.service.PasswordEncoderService;
 import com.github.progtechteam.socialnetwork.services.service.UserService;
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserGetDto getById(int userId) {
+    public UserProfileGetDto getById(int userId) {
         log.info("Requested User [ID={}]", userId);
         final var user = userRepository
                 .findById(userId)
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
                         USER_NOT_FOUND_MESSAGE,
                         userId
                 )));
-        return userMapper.entityToGetDto(user);
+        return userMapper.entityToProfileGetDto(user);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.progtechteam.socialnetwork.api.controller;
 
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +22,14 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping(path = "/{userId}")
+    public UserProfileGetDto getById(@PathVariable int userId) {
+        return userService.getById(userId);
+    }
+
     @GetMapping
     public List<UserGetDto> getAll() {
         return userService.getAll();
-    }
-
-    @GetMapping(path = "/{userId}")
-    public UserGetDto getById(@PathVariable int userId) {
-        return userService.getById(userId);
     }
 
     @GetMapping(path = "/{userId}/subscribers")

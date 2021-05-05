@@ -2,11 +2,15 @@ package com.github.progtechteam.socialnetwork.services.mapper;
 
 import com.github.progtechteam.socialnetwork.data.entity.User;
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Evgenii Puliaev
@@ -14,10 +18,22 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "friends", source = "friends", qualifiedByName = "getSize")
+    @Mapping(target = "subscribers", source = "subscribers", qualifiedByName = "getSize")
+    @Mapping(target = "subscriptions", source = "subscriptionsOnUsers", qualifiedByName = "getSize")
     @Mapping(target = "email", source = "account.email")
-    @Mapping(target = "role", source = "account.role")
+    UserProfileGetDto entityToProfileGetDto(User entity);
+
+    @Named("entityToGetDto")
+    @Mapping(target = "email", source = "account.email")
     UserGetDto entityToGetDto(User entity);
 
+    @IterableMapping(qualifiedByName = "entityToGetDto")
     List<UserGetDto> entityToGetDto(Collection<User> entity);
+
+    @Named("getSize")
+    default Integer getSize(Set<User> collection) {
+        return collection.size();
+    }
 
 }
