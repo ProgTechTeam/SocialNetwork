@@ -1,7 +1,7 @@
 package com.github.progtechteam.socialnetwork.api.controller;
 
+import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
-import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.PostService;
 import com.github.progtechteam.socialnetwork.services.service.UserService;
@@ -31,22 +31,22 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserGetDto> getAll() {
+    public List<NamedDto> getAll() {
         return userService.getAll();
     }
 
     @GetMapping(path = "/{userId}/subscribers")
-    public List<UserGetDto> getSubscribers(@PathVariable int userId) {
+    public List<NamedDto> getSubscribers(@PathVariable int userId) {
         return userService.getSubscribers(userId);
     }
 
     @GetMapping(path = "/{userId}/subscriptions")
-    public List<UserGetDto> getSubscriptions(@PathVariable int userId) {
+    public List<NamedDto> getSubscriptions(@PathVariable int userId) {
         return userService.getSubscriptions(userId);
     }
 
     @GetMapping(path = "/{userId}/friends")
-    public List<UserGetDto> getFriends(@PathVariable int userId) {
+    public List<NamedDto> getFriends(@PathVariable int userId) {
         return userService.getFriends(userId);
     }
 

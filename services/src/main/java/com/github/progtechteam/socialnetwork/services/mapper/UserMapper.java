@@ -30,10 +30,14 @@ public interface UserMapper {
     UserGetDto entityToGetDto(User entity);
 
     @IterableMapping(qualifiedByName = "entityToGetDto")
-    List<UserGetDto> entityToGetDto(Collection<User> entity);
+    List<UserGetDto> entityToGetDto(Collection<User> entities);
 
+    @Named("entityToNamedDto")
     @Mapping(target = "name", source = "fullName")
     NamedDto entityToNamedDto(User entity);
+
+    @IterableMapping(qualifiedByName = "entityToNamedDto")
+    List<NamedDto> entityToNamedDto(Collection<User> entities);
 
     @Named("getSize")
     default Integer getSize(Set<User> collection) {

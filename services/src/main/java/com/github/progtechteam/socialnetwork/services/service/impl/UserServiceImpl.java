@@ -9,8 +9,8 @@ import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundEx
 import com.github.progtechteam.socialnetwork.services.exception.UserAlreadyExistsException;
 import com.github.progtechteam.socialnetwork.services.mapper.UserMapper;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto;
-import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.AuthenticationService;
 import com.github.progtechteam.socialnetwork.services.service.PasswordEncoderService;
@@ -40,13 +40,6 @@ public class UserServiceImpl implements UserService {
     private final CurrentUser currentUser;
 
     @Override
-    public List<UserGetDto> getAll() {
-        log.info("Requested list of all users");
-        final var users = userRepository.findAll();
-        return userMapper.entityToGetDto(users);
-    }
-
-    @Override
     public UserProfileGetDto getById(int userId) {
         log.info("Requested User [ID={}]", userId);
         final var user = userRepository
@@ -59,7 +52,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserGetDto> getSubscribers(int userId) {
+    public List<NamedDto> getAll() {
+        log.info("Requested list of all users");
+        final var users = userRepository.findAll();
+        return userMapper.entityToNamedDto(users);
+    }
+
+    @Override
+    public List<NamedDto> getSubscribers(int userId) {
         log.info("Requested subscribers of User [ID={}]", userId);
         final var user = userRepository
                 .findById(userId)
@@ -67,11 +67,11 @@ public class UserServiceImpl implements UserService {
                         USER_NOT_FOUND_MESSAGE,
                         userId
                 )));
-        return userMapper.entityToGetDto(user.getSubscribers());
+        return userMapper.entityToNamedDto(user.getSubscribers());
     }
 
     @Override
-    public List<UserGetDto> getSubscriptions(int userId) {
+    public List<NamedDto> getSubscriptions(int userId) {
         log.info("Requested subscriptions of User [ID={}]", userId);
         final var user = userRepository
                 .findById(userId)
@@ -79,11 +79,11 @@ public class UserServiceImpl implements UserService {
                         USER_NOT_FOUND_MESSAGE,
                         userId
                 )));
-        return userMapper.entityToGetDto(user.getSubscriptionsOnUsers());
+        return userMapper.entityToNamedDto(user.getSubscriptionsOnUsers());
     }
 
     @Override
-    public List<UserGetDto> getFriends(int userId) {
+    public List<NamedDto> getFriends(int userId) {
         log.info("Requested friends of User [ID={}]", userId);
         final var user = userRepository
                 .findById(userId)
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                         USER_NOT_FOUND_MESSAGE,
                         userId
                 )));
-        return userMapper.entityToGetDto(user.getFriends());
+        return userMapper.entityToNamedDto(user.getFriends());
     }
 
     @Override
