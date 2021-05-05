@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Evgenii Puliaev
@@ -182,6 +183,13 @@ public class User {
         return subscriptionsOnUsers.stream()
                 .filter(s -> subscribers.contains(s))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public String getFullName() {
+        return Stream.of(firstName, lastName)
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .collect(Collectors.joining(" "));
     }
 
     @Override

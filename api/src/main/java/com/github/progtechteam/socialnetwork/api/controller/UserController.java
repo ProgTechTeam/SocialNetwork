@@ -1,7 +1,9 @@
 package com.github.progtechteam.socialnetwork.api.controller;
 
+import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
+import com.github.progtechteam.socialnetwork.services.service.PostService;
 import com.github.progtechteam.socialnetwork.services.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping(path = "/{userId}")
     public UserProfileGetDto getById(@PathVariable int userId) {
@@ -47,6 +50,11 @@ public class UserController {
         return userService.getFriends(userId);
     }
 
+    @GetMapping(path = "/{userId}/posts")
+    public List<PostGetDto> getPosts(@PathVariable int userId) {
+        return postService.getByUserId(userId);
+    }
+
     @PutMapping(path = "/{userId}/subscribe")
     public void subscribe(@PathVariable int userId) {
         userService.subscribe(userId);
@@ -56,5 +64,4 @@ public class UserController {
     public void unsubscribe(@PathVariable int userId) {
         userService.unsubscribe(userId);
     }
-
 }
