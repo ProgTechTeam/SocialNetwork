@@ -1,6 +1,7 @@
 package com.github.progtechteam.socialnetwork.services.mapper;
 
 import com.github.progtechteam.socialnetwork.data.entity.User;
+import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,5 +20,8 @@ public interface UserMapper {
     UserGetDto entityToGetDto(User entity);
 
     List<UserGetDto> entityToGetDto(Collection<User> entity);
+
+    @Mapping(target = "name", source = "fullName")
+    NamedDto entityToNamedDto(User entity);
 
 }

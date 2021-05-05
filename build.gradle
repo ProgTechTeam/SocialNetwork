@@ -37,6 +37,7 @@ allprojects {
         spring_security_ver  = '5.3.9.RELEASE'
         jakarta_servlet_ver  = '4.0.4'
         jackson_ver  = '2.12.3'
+        lombok_mapstruct_ver = '0.2.0'
     }
 
     repositories {

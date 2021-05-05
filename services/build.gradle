@@ -5,4 +5,5 @@ dependencies {
 
     implementation "org.mapstruct:mapstruct:$mapstruct_ver"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstruct_ver"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:$lombok_mapstruct_ver"
 }
