@@ -34,6 +34,10 @@ allprojects {
         liquibase_ver = '4.3.1'
         mapstruct_ver = '1.4.2.Final'
         lombok_ver = '1.18.18'
+        spring_security_ver  = '5.3.9.RELEASE'
+        jakarta_servlet_ver  = '4.0.4'
+        jackson_ver  = '2.12.3'
+        lombok_mapstruct_ver = '0.2.0'
         springdoc_openapi_ver = '1.5.6'
         hib_validator_ver = '7.0.1.Final'
     }
