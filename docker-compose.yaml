@@ -1,0 +1,57 @@
+version: '3.6'
+services:
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: social-network-db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_DB=social-network
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    networks:
+      - backdb
+  
+  back:
+    build: 
+      context: ./backend
+      target:  finalApp
+    image: progtechteam/social-network-backend
+    container_name: social-network-backend
+    environment:
+      - DB_USERNAME=compose-postgres
+      - DB_PASSWORD=compose-postgres
+      - DB_URL=db:5432
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    depends_on:
+      - db
+    networks:
+      - frontback 
+      - backdb
+
+  front:
+    build: ./frontend
+    image: progtechteam/social-network-frontend
+    container_name: social-network-frontend
+    ports:
+      - 4444:4444
+    depends_on:
+      - back
+    networks: 
+      - frontback     
+  
+networks: 
+  backdb:
+    driver: bridge
+  frontback:
+    driver: bridge
+
+volumes:
+  postgres-data:
