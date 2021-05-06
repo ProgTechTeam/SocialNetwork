@@ -24,6 +24,7 @@ public abstract class PostMapper {
     @Autowired
     private UserRepository userRepository;
 
+    @Mapping(target = "author", source = "author", qualifiedByName = "entityToNamedDto")
     public abstract PostGetDto entityToGetDto(Post entity);
 
     public abstract List<PostGetDto> entityToGetDto(List<Post> entity);
