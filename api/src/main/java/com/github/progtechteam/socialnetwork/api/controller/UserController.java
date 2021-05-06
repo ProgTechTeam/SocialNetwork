@@ -56,12 +56,12 @@ public class UserController {
     }
 
     @PutMapping(path = "/{userId}/subscribe")
-    public void subscribe(@PathVariable int userId) {
-        userService.subscribe(userId);
+    public UserProfileGetDto subscribe(@PathVariable int userId) {
+        return userService.subscribe(userId);
     }
 
     @PutMapping(path = "/{userId}/unsubscribe")
-    public void unsubscribe(@PathVariable int userId) {
-        userService.unsubscribe(userId);
+    public UserProfileGetDto unsubscribe(@PathVariable int userId) {
+        return userService.unsubscribe(userId);
     }
 }

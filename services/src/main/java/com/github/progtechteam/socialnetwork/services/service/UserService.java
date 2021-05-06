@@ -24,7 +24,7 @@ public interface UserService {
 
     CurrentUser create(UserCreateDto dto);
 
-    void subscribe(int userId);
+    UserProfileGetDto subscribe(int userId);
 
-    void unsubscribe(int userId);
+    UserProfileGetDto unsubscribe(int userId);
 }

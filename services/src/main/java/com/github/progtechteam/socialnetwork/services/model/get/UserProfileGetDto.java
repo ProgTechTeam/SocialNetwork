@@ -13,5 +13,6 @@ public class UserProfileGetDto extends UserGetDto {
     private Integer friends;
     private Integer subscribers;
     private Integer subscriptions;
+    private Boolean subscribed;
 
 }

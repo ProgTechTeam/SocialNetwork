@@ -127,23 +127,25 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void subscribe(int userId) {
+    public UserProfileGetDto subscribe(int userId) {
         log.info("User [ID={}] requested subscription to User [ID={}]", currentUser.getId(), userId);
         final var currUser = userRepository.getOne(currentUser.getId());
         final var userToSubscribe = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, userId)));
         currUser.subscribeToUser(userToSubscribe);
+        return userMapper.entityToProfileGetDto(userToSubscribe);
     }
 
     @Transactional
     @Override
-    public void unsubscribe(int userId) {
+    public UserProfileGetDto unsubscribe(int userId) {
         log.info("User [ID={}] requested cancellation of subscription to User [ID={}]", currentUser.getId(), userId);
         final var currUser = userRepository.getOne(currentUser.getId());
         final var userToUnsubscribe = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, userId)));
         currUser.unsubscribeFromUser(userToUnsubscribe);
+        return userMapper.entityToProfileGetDto(userToUnsubscribe);
     }
 }
