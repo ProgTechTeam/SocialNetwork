@@ -1,7 +1,8 @@
 package com.github.progtechteam.socialnetwork.api.controller;
 
+import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
-import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.PostService;
 import com.github.progtechteam.socialnetwork.services.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,28 +25,28 @@ public class UserController {
     private final UserService userService;
     private final PostService postService;
 
-    @GetMapping
-    public List<UserGetDto> getAll() {
-        return userService.getAll();
-    }
-
     @GetMapping(path = "/{userId}")
-    public UserGetDto getById(@PathVariable int userId) {
+    public UserProfileGetDto getById(@PathVariable int userId) {
         return userService.getById(userId);
     }
 
+    @GetMapping
+    public List<NamedDto> getAll() {
+        return userService.getAll();
+    }
+
     @GetMapping(path = "/{userId}/subscribers")
-    public List<UserGetDto> getSubscribers(@PathVariable int userId) {
+    public List<NamedDto> getSubscribers(@PathVariable int userId) {
         return userService.getSubscribers(userId);
     }
 
     @GetMapping(path = "/{userId}/subscriptions")
-    public List<UserGetDto> getSubscriptions(@PathVariable int userId) {
+    public List<NamedDto> getSubscriptions(@PathVariable int userId) {
         return userService.getSubscriptions(userId);
     }
 
     @GetMapping(path = "/{userId}/friends")
-    public List<UserGetDto> getFriends(@PathVariable int userId) {
+    public List<NamedDto> getFriends(@PathVariable int userId) {
         return userService.getFriends(userId);
     }
 
@@ -55,12 +56,12 @@ public class UserController {
     }
 
     @PutMapping(path = "/{userId}/subscribe")
-    public void subscribe(@PathVariable int userId) {
-        userService.subscribe(userId);
+    public UserProfileGetDto subscribe(@PathVariable int userId) {
+        return userService.subscribe(userId);
     }
 
     @PutMapping(path = "/{userId}/unsubscribe")
-    public void unsubscribe(@PathVariable int userId) {
-        userService.unsubscribe(userId);
+    public UserProfileGetDto unsubscribe(@PathVariable int userId) {
+        return userService.unsubscribe(userId);
     }
 }
