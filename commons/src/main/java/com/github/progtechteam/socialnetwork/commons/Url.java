@@ -13,6 +13,7 @@ public final class Url {
     public static final String LOGIN = "/auth/login";
     public static final String LOGOUT = "/auth/logout";
 
+    public static final String ADMIN = "/admin";
     public static final String MODERATOR = "/moderator";
 
     public static final String SWAGGER_UI = "/swagger-ui";

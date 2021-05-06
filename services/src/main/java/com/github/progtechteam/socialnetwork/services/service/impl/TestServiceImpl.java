@@ -7,13 +7,16 @@ import com.github.progtechteam.socialnetwork.services.model.create.TestCreateDto
 import com.github.progtechteam.socialnetwork.services.model.get.TestGetDto;
 import com.github.progtechteam.socialnetwork.services.service.TestService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * @author Evgenii Puliaev
  */
 @Service
+@Validated
 public class TestServiceImpl implements TestService {
 
     private final TestMapper testMapper;
@@ -31,7 +34,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public TestGetDto createTest(TestCreateDto createDto) {
+    public TestGetDto createTest(@Valid TestCreateDto createDto) {
         final var entityToSave = testMapper.fromCreateDto(createDto);
         if (createDto.getContent().contains("1")) {
             entityToSave.setType(TestType.TYPE_1);
