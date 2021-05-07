@@ -46,17 +46,18 @@ allprojects {
         mavenCentral()
         jcenter()
     }
-
-    dependencies {
-        compileOnly "org.projectlombok:lombok:$lombok_ver"
-        annotationProcessor "org.projectlombok:lombok:$lombok_ver"
-    }
 }
 
 allprojects.each {
-    if (it.name != 'commons') {
+    if (it.name != 'commons' && it.name != 'frontend') {
         it.dependencies {
             implementation project(':commons')
+        }
+    }
+    if (it.name != 'frontend') {
+        it.dependencies {
+            compileOnly "org.projectlombok:lombok:$lombok_ver"
+            annotationProcessor "org.projectlombok:lombok:$lombok_ver"
         }
     }
 }
