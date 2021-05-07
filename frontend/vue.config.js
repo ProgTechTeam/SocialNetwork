@@ -1,7 +1,7 @@
 module.exports = {
   outputDir: 'build/dist',
   assetsDir: 'static',
-  devServer: {
+  /*devServer: {
     port: 4444,
     proxy: {
       "^/api": {
@@ -9,6 +9,6 @@ module.exports = {
         changeOrigin: true,
       },
     },
-  },
+  },*/
   transpileDependencies: ["vuetify"],
 };

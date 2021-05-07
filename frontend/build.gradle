@@ -14,7 +14,7 @@ frontend {
     assembleScript.set("run build")
 }
 
-tasks.named("jar") {
+tasks.named("jar", Jar) {
     dependsOn("assembleFrontend")
     from("$buildDir/dist")
     into("static")
