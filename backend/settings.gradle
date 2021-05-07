@@ -1,7 +1,0 @@
-rootProject.name = 'social-network'
-
-include 'commons'
-include 'api'
-include 'services'
-include 'data'
-include 'security'

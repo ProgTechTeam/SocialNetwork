@@ -18,7 +18,7 @@ services:
   
   back:
     build: 
-      context: ./backend
+      context: .
       target:  finalApp
     image: progtechteam/social-network-backend
     container_name: social-network-backend

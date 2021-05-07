@@ -1,4 +1,8 @@
-rootProject.name = "app"
+rootProject.name = 'social-network'
 
-include "frontend"
-includeBuild "backend"
+include 'commons'
+include 'api'
+include 'services'
+include 'data'
+include 'security'
+include 'frontend'
