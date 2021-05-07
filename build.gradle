@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.github.progtechteam'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    runtimeOnly project(":frontend")
+    implementation 'com.github.progtechteam:social-network:0.0.1-SNAPSHOT'
+}

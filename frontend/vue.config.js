@@ -1,9 +1,11 @@
 module.exports = {
   devServer: {
+    outputDir: 'build/dist',
+    assetsDir: 'static',
     port: 4444,
     proxy: {
       "^/api": {
-        target: "http://back:8080",
+        target: "http://localhost:8080",
         changeOrigin: true,
       },
     },

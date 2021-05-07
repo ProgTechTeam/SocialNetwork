@@ -1,0 +1,26 @@
+plugins {
+    id 'org.siouan.frontend' version '1.2.1'
+    id 'java'
+}
+
+group = 'com.github.progtechteam'
+version = '0.0.1-SNAPSHOT'
+
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+frontend {
+    nodeVersion.set("10.16.0")
+    cleanScript.set("run clean")
+    installScript.set("install")
+    assembleScript.set("run build")
+}
+
+tasks.named("jar") {
+    dependsOn("assembleFrontend")
+    from("$buildDir/dist")
+    into("static")
+}
