@@ -35,3 +35,15 @@ databaseChangeLog:
         - sqlFile:
             path: rollback/SN-10.rollback.sql
             relativeToChangelogFile: true
+  - changeSet:
+        id: SN-37
+        author: Pavel Burdyug
+        comment: Add likes table
+        changes:
+          - sqlFile:
+              path: SN-37.sql
+              relativeToChangelogFile: true
+        rollback:
+          - sqlFile:
+              path: rollback/SN-37.rollback.sql
+              relativeToChangelogFile: true

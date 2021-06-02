@@ -1,5 +1,6 @@
 package com.github.progtechteam.socialnetwork.services.service;
 
+import com.github.progtechteam.socialnetwork.services.model.base.BaseDto;
 import com.github.progtechteam.socialnetwork.services.model.create.PostCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
 
@@ -11,6 +12,8 @@ import java.util.List;
 public interface PostService {
 
     List<PostGetDto> getByUserId(int userId);
+
+    List<BaseDto> getLikedUsers(int postId);
 
     PostGetDto getById(int postId);
 

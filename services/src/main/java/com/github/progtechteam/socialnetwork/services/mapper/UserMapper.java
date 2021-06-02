@@ -2,6 +2,7 @@ package com.github.progtechteam.socialnetwork.services.mapper;
 
 import com.github.progtechteam.socialnetwork.data.entity.User;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.services.model.base.BaseDto;
 import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
@@ -42,8 +43,15 @@ public abstract class UserMapper {
     @Mapping(target = "name", source = "fullName")
     public abstract NamedDto entityToNamedDto(User entity);
 
+    @Named("entityToBaseDto")
+    @Mapping(target = "id", source = "id")
+    public abstract BaseDto entityToBaseDto(User entity);
+
     @IterableMapping(qualifiedByName = "entityToNamedDto")
     public abstract List<NamedDto> entityToNamedDto(Collection<User> entities);
+
+    @IterableMapping(qualifiedByName = "entityToBaseDto")
+    public abstract List<BaseDto> entityToBaseDto(Collection<User> entities);
 
     @Named("getSize")
     public Integer getSize(Set<User> collection) {

@@ -4,7 +4,9 @@ import com.github.progtechteam.socialnetwork.data.repository.PostRepository;
 import com.github.progtechteam.socialnetwork.data.repository.UserRepository;
 import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundException;
 import com.github.progtechteam.socialnetwork.services.mapper.PostMapper;
+import com.github.progtechteam.socialnetwork.services.mapper.UserMapper;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.services.model.base.BaseDto;
 import com.github.progtechteam.socialnetwork.services.model.create.PostCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
 import com.github.progtechteam.socialnetwork.services.service.PostService;
@@ -26,6 +28,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostMapper postMapper;
+    private final UserMapper userMapper;
     private final CurrentUser currentUser;
 
     @Override
@@ -33,6 +36,13 @@ public class PostServiceImpl implements PostService {
         log.info("Requested all Posts for User [ID={}]", userId);
         final var posts = postRepository.findAllByUserPostOwnersContains(userId);
         return postMapper.entityToGetDto(posts);
+    }
+
+    @Override
+    public List<BaseDto> getLikedUsers(int postId) {
+        log.info("Requested all liked users for Post [ID={}]", postId);
+        final var users = userRepository.findAllLikedUsersByPostId(postId);
+        return userMapper.entityToBaseDto(users);
     }
 
     @Override
@@ -61,4 +71,5 @@ public class PostServiceImpl implements PostService {
 
         return postMapper.entityToGetDto(savedPost);
     }
+
 }

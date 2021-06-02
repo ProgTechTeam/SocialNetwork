@@ -25,6 +25,7 @@ public abstract class PostMapper {
     private UserRepository userRepository;
 
     @Mapping(target = "author", source = "author", qualifiedByName = "entityToNamedDto")
+    @Mapping(target = "likedUsers", source = "likedUsers", qualifiedByName = "entityToBaseDto")
     public abstract PostGetDto entityToGetDto(Post entity);
 
     public abstract List<PostGetDto> entityToGetDto(List<Post> entity);

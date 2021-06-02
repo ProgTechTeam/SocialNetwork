@@ -127,6 +127,26 @@ public class User {
     )
     private Set<Post> posts = new HashSet<>();
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "likes",
+            schema = "relationships",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "user_id",
+                    nullable = false
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "post_id",
+                    referencedColumnName = "post_id",
+                    nullable = false
+            )
+    )
+    private Set<Post> likedPosts = new HashSet<>();
+
     public void subscribeToUser(User userToFollow) {
         subscriptionsOnUsers.add(userToFollow);
         userToFollow.subscribers.add(this);
@@ -135,6 +155,16 @@ public class User {
     public void unsubscribeFromUser(User userToUnsubscribe) {
         subscriptionsOnUsers.remove(userToUnsubscribe);
         userToUnsubscribe.subscribers.remove(this);
+    }
+
+    public void like(Post postToLike) {
+        likedPosts.add(postToLike);
+        postToLike.getLikedUsers().add(this);
+    }
+
+    public void cancelLike(Post postToLike) {
+        likedPosts.remove(postToLike);
+        postToLike.getLikedUsers().remove(this);
     }
 
     public void subscribeToCommunity(Community community) {

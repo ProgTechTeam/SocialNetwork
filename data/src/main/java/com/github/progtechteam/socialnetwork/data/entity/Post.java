@@ -38,6 +38,9 @@ public class Post {
     @JoinColumn(name = "author_id", nullable = false, updatable = false)
     private User author;
 
+    @ManyToMany(mappedBy = "likedPosts")
+    private Set<User> likedUsers = new HashSet<>();
+
     @ManyToMany(mappedBy = "posts")
     private Set<User> userPostOwners = new HashSet<>();
 

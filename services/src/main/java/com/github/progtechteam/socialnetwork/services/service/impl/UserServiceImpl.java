@@ -4,13 +4,16 @@ import com.github.progtechteam.socialnetwork.commons.Role;
 import com.github.progtechteam.socialnetwork.data.entity.Account;
 import com.github.progtechteam.socialnetwork.data.entity.User;
 import com.github.progtechteam.socialnetwork.data.repository.AccountRepository;
+import com.github.progtechteam.socialnetwork.data.repository.PostRepository;
 import com.github.progtechteam.socialnetwork.data.repository.UserRepository;
 import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundException;
 import com.github.progtechteam.socialnetwork.services.exception.UserAlreadyExistsException;
+import com.github.progtechteam.socialnetwork.services.mapper.PostMapper;
 import com.github.progtechteam.socialnetwork.services.mapper.UserMapper;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
 import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto;
+import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 import com.github.progtechteam.socialnetwork.services.service.AuthenticationService;
 import com.github.progtechteam.socialnetwork.services.service.PasswordEncoderService;
@@ -31,12 +34,15 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private static final String USER_NOT_FOUND_MESSAGE = "User [ID={%d}] not found";
+    private static final String POST_NOT_FOUND_MESSAGE = "Post [ID={%d}] not found";
 
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final PasswordEncoderService passwordEncoderService;
     private final AuthenticationService authenticationService;
     private final UserMapper userMapper;
+    private final PostMapper postMapper;
     private final CurrentUser currentUser;
 
     @Override
@@ -147,5 +153,29 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, userId)));
         currUser.unsubscribeFromUser(userToUnsubscribe);
         return userMapper.entityToProfileGetDto(userToUnsubscribe);
+    }
+
+    @Override
+    public PostGetDto like(int postId) {
+        log.info("User [ID={}] requested like to Post [ID={}]", currentUser.getId(), postId);
+        final var currUser = userRepository.getOne(currentUser.getId());
+        final var postToLike = postRepository
+                .findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(POST_NOT_FOUND_MESSAGE, postId)));
+        currUser.like(postToLike);
+        postRepository.save(postToLike);
+        return postMapper.entityToGetDto(postToLike);
+    }
+
+    @Override
+    public PostGetDto cancelLike(int postId) {
+        log.info("User [ID={}] requested like cancellation to Post [ID={}]", currentUser.getId(), postId);
+        final var currUser = userRepository.getOne(currentUser.getId());
+        final var postToCancelLike = postRepository
+                .findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(POST_NOT_FOUND_MESSAGE, postId)));
+        currUser.cancelLike(postToCancelLike);
+        postRepository.save(postToCancelLike);
+        return postMapper.entityToGetDto(postToCancelLike);
     }
 }

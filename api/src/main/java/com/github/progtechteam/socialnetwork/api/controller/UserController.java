@@ -64,4 +64,14 @@ public class UserController {
     public UserProfileGetDto unsubscribe(@PathVariable int userId) {
         return userService.unsubscribe(userId);
     }
+
+    @PutMapping(path = "/{postId}/like")
+    public PostGetDto like(@PathVariable int postId) {
+        return userService.like(postId);
+    }
+
+    @PutMapping(path = "/{postId}/cancel-like")
+    public PostGetDto cancelLike(@PathVariable int postId) {
+        return userService.cancelLike(postId);
+    }
 }

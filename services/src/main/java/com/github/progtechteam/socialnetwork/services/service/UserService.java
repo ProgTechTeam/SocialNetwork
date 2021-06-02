@@ -3,6 +3,7 @@ package com.github.progtechteam.socialnetwork.services.service;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
 import com.github.progtechteam.socialnetwork.services.model.base.NamedDto;
 import com.github.progtechteam.socialnetwork.services.model.create.UserCreateDto;
+import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.UserProfileGetDto;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public interface UserService {
     UserProfileGetDto subscribe(int userId);
 
     UserProfileGetDto unsubscribe(int userId);
+
+    PostGetDto like(int postId);
+
+    PostGetDto cancelLike(int postId);
 }

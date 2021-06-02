@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * @author Evgenii Puliaev
@@ -17,5 +18,6 @@ public class PostGetDto extends BaseDto {
     private String payload;
     private NamedDto author;
     private Instant createdAt;
+    private List<BaseDto> likedUsers;
 
 }
