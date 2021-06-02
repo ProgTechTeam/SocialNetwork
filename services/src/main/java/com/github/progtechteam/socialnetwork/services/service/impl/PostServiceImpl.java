@@ -1,5 +1,6 @@
 package com.github.progtechteam.socialnetwork.services.service.impl;
 
+import com.github.progtechteam.socialnetwork.data.entity.User;
 import com.github.progtechteam.socialnetwork.data.repository.PostRepository;
 import com.github.progtechteam.socialnetwork.data.repository.UserRepository;
 import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundException;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Evgenii Puliaev
@@ -24,6 +25,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class PostServiceImpl implements PostService {
+
+    private static final String USER_NOT_FOUND_MESSAGE = "User [ID={%d}] not found";
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -43,6 +46,25 @@ public class PostServiceImpl implements PostService {
         log.info("Requested all liked users for Post [ID={}]", postId);
         final var users = userRepository.findAllLikedUsersByPostId(postId);
         return userMapper.entityToBaseDto(users);
+    }
+
+    @Override
+    public List<PostGetDto> getNewsByUserId(int userId) {
+        log.info("Requested news for User [ID={}]", userId);
+        final var user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(
+                        USER_NOT_FOUND_MESSAGE,
+                        userId
+                )));
+        List<PostGetDto> posts = new ArrayList<>();
+        for (User subscriber : user.getSubscriptionsOnUsers()) {
+            posts.addAll(getByUserId(subscriber.getId()));
+        }
+        for (User friend : user.getFriends()) {
+            posts.addAll(getByUserId(friend.getId()));
+        }
+        return posts;
     }
 
     @Override
@@ -71,5 +93,4 @@ public class PostServiceImpl implements PostService {
 
         return postMapper.entityToGetDto(savedPost);
     }
-
 }

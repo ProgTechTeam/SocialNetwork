@@ -15,6 +15,8 @@ public interface PostService {
 
     List<BaseDto> getLikedUsers(int postId);
 
+    List<PostGetDto> getNewsByUserId(int userId);
+
     PostGetDto getById(int postId);
 
     PostGetDto create(PostCreateDto dto);
