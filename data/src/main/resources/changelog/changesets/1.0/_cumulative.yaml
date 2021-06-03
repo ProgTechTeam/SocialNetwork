@@ -47,3 +47,15 @@ databaseChangeLog:
           - sqlFile:
               path: rollback/SN-37.rollback.sql
               relativeToChangelogFile: true
+  - changeSet:
+      id: SN-39
+      author: Pavel Burdyug
+      comment: Add complaints tables
+      changes:
+        - sqlFile:
+            path: SN-39.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/SN-39.rollback.sql
+            relativeToChangelogFile: true

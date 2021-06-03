@@ -1,6 +1,9 @@
 package com.github.progtechteam.socialnetwork.services.service.impl;
 
+import com.github.progtechteam.socialnetwork.commons.ComplaintType;
+import com.github.progtechteam.socialnetwork.data.entity.Complaint;
 import com.github.progtechteam.socialnetwork.data.entity.User;
+import com.github.progtechteam.socialnetwork.data.repository.ComplaintRepository;
 import com.github.progtechteam.socialnetwork.data.repository.PostRepository;
 import com.github.progtechteam.socialnetwork.data.repository.UserRepository;
 import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundException;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Evgenii Puliaev
@@ -27,9 +31,11 @@ import java.util.*;
 public class PostServiceImpl implements PostService {
 
     private static final String USER_NOT_FOUND_MESSAGE = "User [ID={%d}] not found";
+    private static final String POST_NOT_FOUND_MESSAGE = "Post [ID={%d}] not found";
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ComplaintRepository complaintRepository;
     private final PostMapper postMapper;
     private final UserMapper userMapper;
     private final CurrentUser currentUser;
@@ -92,5 +98,26 @@ public class PostServiceImpl implements PostService {
         user.addPost(savedPost);
 
         return postMapper.entityToGetDto(savedPost);
+    }
+
+    @Override
+    public PostGetDto complaint(int postId, int complaintTypeId) {
+        log.info("User [ID={}] requested create complaints to Post [ID={}]", currentUser.getId(), postId);
+        final var currUser = userRepository.getOne(currentUser.getId());
+        final var postToComplaint = postRepository
+                .findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(POST_NOT_FOUND_MESSAGE, postId)));
+        Complaint complaint = new Complaint();
+        complaint.setUser(currUser);
+        complaint.setPost(postToComplaint);
+        complaint.setComplaintType(ComplaintType.fromId(complaintTypeId));
+        complaintRepository.save(complaint);
+        return postMapper.entityToGetDto(postToComplaint);
+    }
+
+    @Override
+    public List<ComplaintType> getComplaintsTypes() {
+        log.info("User [ID={}] requested all complaints types", currentUser.getId());
+        return Arrays.asList(ComplaintType.values());
     }
 }

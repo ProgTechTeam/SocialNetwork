@@ -1,5 +1,6 @@
 package com.github.progtechteam.socialnetwork.services.service;
 
+import com.github.progtechteam.socialnetwork.commons.ComplaintType;
 import com.github.progtechteam.socialnetwork.services.model.base.BaseDto;
 import com.github.progtechteam.socialnetwork.services.model.create.PostCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.PostGetDto;
@@ -21,4 +22,7 @@ public interface PostService {
 
     PostGetDto create(PostCreateDto dto);
 
+    PostGetDto complaint(int postId, int complaintTypeId);
+
+    List<ComplaintType> getComplaintsTypes();
 }
