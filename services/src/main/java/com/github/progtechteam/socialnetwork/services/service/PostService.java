@@ -12,6 +12,8 @@ public interface PostService {
 
     List<PostGetDto> getByUserId(int userId);
 
+    List<PostGetDto> getNewsByUserId(int userId);
+
     PostGetDto getById(int postId);
 
     PostGetDto create(PostCreateDto dto);
