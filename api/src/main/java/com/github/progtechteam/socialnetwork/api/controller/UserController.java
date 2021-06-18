@@ -50,6 +50,11 @@ public class UserController {
         return userService.getFriends(userId);
     }
 
+    @GetMapping(path = "/{userId}/news")
+    public List<PostGetDto> getNews(@PathVariable int userId) {
+        return postService.getNewsByUserId(userId);
+    }
+
     @GetMapping(path = "/{userId}/posts")
     public List<PostGetDto> getPosts(@PathVariable int userId) {
         return postService.getByUserId(userId);
