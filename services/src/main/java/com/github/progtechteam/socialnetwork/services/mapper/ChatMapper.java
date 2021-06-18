@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -25,10 +26,6 @@ public abstract class ChatMapper {
 
     @Named("privateChatToRowGetDto")
     public ChatRowGetDto privateChatToRowGetDto(PrivateChat entity) {
-        if (entity.getMessages().isEmpty()) {
-            return null;
-        }
-
         final var row = new ChatRowGetDto();
         row.setId(entity.getId());
 
@@ -37,6 +34,10 @@ public abstract class ChatMapper {
                 : entity.getFirstParticipant().getFullName();
         row.setName(rowName);
 
+        if (entity.getMessages().isEmpty()) {
+            row.setLastMessageTime(Instant.EPOCH);
+            return row;
+        }
         final var lastMessage = entity.getMessages().get(entity.getMessages().size() - 1);
         row.setLastMessageAuthor(lastMessage.getAuthor().getFullName());
         row.setLastMessagePayload(lastMessage.getPayload());

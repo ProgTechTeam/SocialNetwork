@@ -1,8 +1,10 @@
 package com.github.progtechteam.socialnetwork.services.service;
 
 import com.github.progtechteam.socialnetwork.commons.ChatType;
+import com.github.progtechteam.socialnetwork.services.model.create.PrivateChatCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.ChatGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.ChatRowGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.MessageGetDto;
 
 import java.util.List;
 
@@ -23,4 +25,7 @@ public interface ChatService {
 
     Integer createPrivateChat(Integer userId);
 
+    List<MessageGetDto> getChatMessages(int chatId);
+
+    ChatRowGetDto createPrivate(PrivateChatCreateDto dto);
 }

@@ -7,9 +7,12 @@ import com.github.progtechteam.socialnetwork.data.repository.PrivateChatReposito
 import com.github.progtechteam.socialnetwork.data.repository.UserRepository;
 import com.github.progtechteam.socialnetwork.services.exception.EntityNotFoundException;
 import com.github.progtechteam.socialnetwork.services.mapper.ChatMapper;
+import com.github.progtechteam.socialnetwork.services.mapper.MessageMapper;
 import com.github.progtechteam.socialnetwork.services.model.auth.CurrentUser;
+import com.github.progtechteam.socialnetwork.services.model.create.PrivateChatCreateDto;
 import com.github.progtechteam.socialnetwork.services.model.get.ChatGetDto;
 import com.github.progtechteam.socialnetwork.services.model.get.ChatRowGetDto;
+import com.github.progtechteam.socialnetwork.services.model.get.MessageGetDto;
 import com.github.progtechteam.socialnetwork.services.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,7 @@ public class ChatServiceImpl implements ChatService {
     private final PrivateChatRepository privateChatRepository;
     private final UserRepository userRepository;
     private final ChatMapper chatMapper;
+    private final MessageMapper messageMapper;
     private final CurrentUser currentUser;
 
     @Override
@@ -89,5 +93,26 @@ public class ChatServiceImpl implements ChatService {
         chat.setSecondParticipant(secondParticipant);
         final var savedChat = privateChatRepository.save(chat);
         return savedChat.getId();
+    }
+
+    @Override
+    public List<MessageGetDto> getChatMessages(int chatId) {
+        log.info("Requested Messages for Chat [ID={}]", chatId);
+        final var chat = chatRepository
+                .findById(chatId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Chat [ID={%d}] not found", chatId)));
+
+        return messageMapper.entityToGetDto(chat.getMessages());
+    }
+
+    @Override
+    public ChatRowGetDto createPrivate(PrivateChatCreateDto dto) {
+        log.info("Creating Private Chat with User [ID={}]", dto.getUserId());
+        final var chat = new PrivateChat();
+        chat.setChatType(ChatType.PRIVATE_CHAT);
+        chat.setFirstParticipant(userRepository.getOne(dto.getUserId()));
+        chat.setSecondParticipant(userRepository.getOne(currentUser.getId()));
+        final var savedChat = chatRepository.save(chat);
+        return chatMapper.privateChatToRowGetDto(savedChat);
     }
 }
